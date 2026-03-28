@@ -11,7 +11,7 @@
       --bg:#ffffff; --bg2:#f6f6f6; --bg3:#eef4ff;
       --ink:#0a0a0a; --ink2:#2a2a2a; --ink3:#777777;
       --rule:#e2e2e2; --accent:#0055ff;
-      --sc:#0055cc; --scj:#6d28d9; --wa:#b45309; --bc:#0e7490;
+      --sc:#0055cc; --jp:#6d28d9; --tech:#0e7490; --macro:#b45309;
     }
     * { box-sizing:border-box; margin:0; padding:0; }
     body { background:var(--bg); color:var(--ink); font-family:'Noto Sans JP',sans-serif; font-weight:300; line-height:1.7; }
@@ -37,26 +37,26 @@
     .filter-btn:last-child { border-right:none; }
     .filter-btn:hover { background:var(--bg2); color:var(--ink); }
     .filter-btn.active { background:var(--ink); color:#fff; }
-    .filter-btn[data-cat="all"].active { background:var(--accent); }
-    .filter-btn[data-cat="sc"].active  { background:var(--sc); }
-    .filter-btn[data-cat="scj"].active { background:var(--scj); }
-    .filter-btn[data-cat="wa"].active  { background:var(--wa); }
-    .filter-btn[data-cat="bc"].active  { background:var(--bc); }
+    .filter-btn[data-cat="all"].active   { background:var(--accent); }
+    .filter-btn[data-cat="sc"].active    { background:var(--sc); }
+    .filter-btn[data-cat="jp"].active    { background:var(--jp); }
+    .filter-btn[data-cat="tech"].active  { background:var(--tech); }
+    .filter-btn[data-cat="macro"].active { background:var(--macro); }
     .news-list { display:flex; flex-direction:column; }
     .news-item { display:grid; grid-template-columns:6px 1fr; gap:0 1.4rem; padding:1.3rem 0; border-bottom:1px solid var(--rule); }
     .news-item:last-child { border-bottom:none; padding-bottom:0; }
     .news-item.hidden { display:none; }
     .news-stripe { width:3px; border-radius:2px; align-self:stretch; }
-    .stripe-sc  { background:var(--sc); }
-    .stripe-scj { background:var(--scj); }
-    .stripe-wa  { background:var(--wa); }
-    .stripe-bc  { background:var(--bc); }
+    .stripe-sc    { background:var(--sc); }
+    .stripe-jp    { background:var(--jp); }
+    .stripe-tech  { background:var(--tech); }
+    .stripe-macro { background:var(--macro); }
     .news-meta { display:flex; align-items:center; gap:0.6rem; margin-bottom:0.35rem; flex-wrap:wrap; }
     .news-domain { font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:500; color:#fff; padding:0.18rem 0.5rem; border-radius:2px; }
-    .domain-sc  { background:var(--sc); }
-    .domain-scj { background:var(--scj); }
-    .domain-wa  { background:var(--wa); }
-    .domain-bc  { background:var(--bc); }
+    .domain-sc    { background:var(--sc); }
+    .domain-jp    { background:var(--jp); }
+    .domain-tech  { background:var(--tech); }
+    .domain-macro { background:var(--macro); }
     .news-subtag { font-size:0.62rem; color:var(--ink3); }
     .news-published { font-size:0.62rem; color:var(--ink3); margin-left:auto; }
     .news-title { font-size:0.92rem; font-weight:500; color:var(--ink); margin-bottom:0.4rem; line-height:1.5; cursor:pointer; }
@@ -100,175 +100,116 @@
 <main>
   <section>
     <div class="section-label">Executive Summary</div>
-    <p class="summary-text"><cite index="8-1,14-3,20-2,46-2">米国でステーブルコインの税制改革議論とデミニミス免除が注目される中、日本では金融庁が「暗号資産・ステーブルコイン課」を新設し、実店舗でのステーブルコイン決済実証実験が本格化している</cite>。<cite index="21-1,23-4">ウォレットセキュリティでは、ハードウェアウォレットの運用強化とAndroidの脆弱性対応が課題となり</cite>、<cite index="36-16,36-20">DeFiは実験段階から基盤インフラへと移行し、TVL約1,300-1,400億ドルで上位12プロトコルが全体の6割を支配している</cite></p>
+    <p class="summary-text">リップルCEOが28日にステーブルコイン時代の本格化を宣言し、企業導入加速を強調。2025年のステーコ取引高が約5,270兆円を突破、機関投資家の72%がデジタル資産導入の必要性を認識。米国CLARITY法案のステーコ利回り問題で妥協案が進展する一方、テザーがKPMGによる初の正式監査を発表し、透明性競争が激化。国内ではSBIのUSDCレンディング開始など機関向け活用が展開。</p>
   </section>
   <section>
     <div class="section-label">今日おさえるべきポイント</div>
-    <ul class="action-list"><li><span class="action-num">1</span>米国税制改革草案の動向とステーブルコイン優遇措置の影響を監視</li>
-<li><span class="action-num">2</span>日本の実店舗ステーブルコイン決済実証実験（りそな・JCB等）の成果を追跡</li>
-<li><span class="action-num">3</span>Androidウォレット脆弱性対応（2026年3月公開予定）の実装状況を確認</li>
+    <ul class="action-list"><li><span class="action-num">1</span>Tether監査発表によるUSDT信頼性向上とUSDC競争力への影響を注視</li>
+<li><span class="action-num">2</span>CLARITY法案のステーコ利回り禁止条項の正式決定スケジュール確認（4月後半の下院委員会マークアップ予定）</li>
+<li><span class="action-num">3</span>国内の3メガバンクステーコ共同発行の進捗確認と金融庁「暗号資産・ステーブルコイン課」新設（夏）への準備対応</li>
+<li><span class="action-num">4</span>機関投資家向けUSDC利用シーン（Polymarket、BlackRock連携）の拡大追跡</li>
 </ul>
   </section>
   <section>
     <div class="section-label">ニュース</div>
     <div class="filter-bar">
       <button class="filter-btn active" data-cat="all">すべて</button>
-      <button class="filter-btn" data-cat="sc">SC・グローバル</button>
-      <button class="filter-btn" data-cat="scj">SC・日本</button>
-      <button class="filter-btn" data-cat="wa">ウォレット</button>
-      <button class="filter-btn" data-cat="bc">ブロックチェーン</button>
+      <button class="filter-btn" data-cat="sc">ステーブルコイン</button>
+      <button class="filter-btn" data-cat="jp">国内動向</button>
+      <button class="filter-btn" data-cat="tech">関連技術</button>
+      <button class="filter-btn" data-cat="macro">マクロ・規制</button>
     </div>
     <div class="news-list" id="newsList">
       <div class="news-item" data-cat="sc">
         <div class="news-stripe stripe-sc"></div>
         <div class="news-content">
           <div class="news-meta">
-            <span class="news-domain domain-sc">SC・グローバル</span>
-            <span class="news-subtag">規制</span>
+            <span class="news-domain domain-sc">ステーブルコイン</span>
+            <span class="news-subtag">市場 or 企業</span>
             <span class="news-published">2026年3月28日</span>
           </div>
-          <div class="news-title" onclick="toggleDetail(0)">米議会、ステーブルコインの非課税枠導入へ、ビットコインは除外</div>
-          <div class="news-body"><cite index="8-1">米下院議員が「Digital Asset PARITY Act」を公開し、ドル連動型ステーブルコインに対する税優遇措置を盛り込む一方、ビットコインの少額取引非課税枠は対象外とした</cite></div>
+          <div class="news-title" onclick="toggleDetail(0)">リップルCEOが語る「クリプトのChatGPT瞬間」─企業財務の地殻変動が始まる</div>
+          <div class="news-body">リップル（Ripple）のCEOであるブラッド・ガーリングハウス氏は3月28日、米FOXビジネスのインタビューで、ステーブルコインが企業による仮想通貨活用の本格化を促す「クリプトのChatGPT瞬間」だと指摘。2025年のステーコ取引高が約5,270兆円（$33T超）を突破し、機関投資家の74%が運転資本効率化ツールとしてステーコを評価していると言及。</div>
           <button class="detail-btn" onclick="toggleDetail(0)">詳しく見る ↓</button>
           
             <div class="news-detail" id="detail-0">
-              <p class="detail-text"><cite index="8-2,8-3">200ドル未満のステーブルコイン取引にはデミニミス免除が導入され、年間の免除上限額は検討中である。一方でBTCが除外された理由は公表されておらず、業界内で議論が続いている</cite>。この税制改革は、決済手段としてのステーブルコインの実用性を高める一方、ビットコインの小額決済利用に制約を残しており、仮想通貨の利用用途による税制差別化が進む可能性が高い。</p>
-              <div class="detail-footer"><a href="https://bittimes.net/news/219972.html" target="_blank" rel="noopener" class="source-link">原文を読む →</a></div>
+              <p class="detail-text">ブラッド・ガーリングハウス氏の発言は、ステーコが単なる暗号資産周辺の限定的ツールから、企業財務インフラの中核へシフトしていることを象徴している。特に注目される点は：
+
+１．企業導入の転機：Fortune 500・2000企業の財務担当者がステーコ導入方針を問う動き拡大。従来の銀行ルートとステーコ送金の両立選択肢確保が参入への突破口となっている。
+
+２．プロトコル間相互運用性の急進展：PayPal-Venmo間の資金移動が13年要した過程が「数分」に短縮される水準での決済ネットワーク統合が進行中。
+
+３．XRP活用事例：XRPレジャー（XRPL）上でのトークン化や決済活用が、グッゲンハイムのドル建てMMFやドバイ土地局の登記で実装されている。
+
+４．SEC/CFTC共同解釈による承認：3月17日の16種類暗号資産デジタルコモディティ認定が「大きな前進」と評価。
+
+ステーコ担当者として、2025-2026年のステーコ市場がプロダクト拡張段階から本格的制度統合段階へ移行している局面にあることを認識する必要がある。</p>
+              <div class="detail-footer"><a href="https://bittimes.net/news/219978.html" target="_blank" rel="noopener" class="source-link">原文を読む →</a></div>
             </div>
         </div>
       </div>
-      <div class="news-item" data-cat="scj">
-        <div class="news-stripe stripe-scj"></div>
+      <div class="news-item" data-cat="sc">
+        <div class="news-stripe stripe-sc"></div>
         <div class="news-content">
           <div class="news-meta">
-            <span class="news-domain domain-scj">SC・日本</span>
-            <span class="news-subtag">規制</span>
-            <span class="news-published">2026年1月27日</span>
+            <span class="news-domain domain-sc">ステーブルコイン</span>
+            <span class="news-subtag">規制 or 企業</span>
+            <span class="news-published">2026年3月27日</span>
           </div>
-          <div class="news-title" onclick="toggleDetail(1)">金融庁、「暗号資産・ステーブルコイン課」を新設</div>
-          <div class="news-body"><cite index="14-1,14-3">日本の金融庁は総合政策局を「資産運用・保険監督局」に改組し、仮想通貨関連業務を集約する「暗号資産・ステーブルコイン課」を新設すると発表した</cite></div>
+          <div class="news-title" onclick="toggleDetail(1)">テザーがKPMGと監査契約を締結、USDT透明性確保で制度適合加速</div>
+          <div class="news-body">テザーは3月24日、USDT準備金の初の正式監査をKPMGに委託することを発表。同時にPwCも顧問として参画し、米国およびEU規制対応を強化。USDT市場規模は$184B（約29兆円）を維持しながら、透明性競争でUSDCに追い付く動き。</div>
           <button class="detail-btn" onclick="toggleDetail(1)">詳しく見る ↓</button>
           
             <div class="news-detail" id="detail-1">
-              <p class="detail-text"><cite index="14-2">組織再編の背景には、2023年6月の改正資金決済法施行によるステーブルコインの国内解禁と、2026年度税制改正大綱での仮想通貨申告分離課税導入がある</cite>。これは日本政府が資産運用立国の実現と、デジタル技術を活用した金融サービス拡大への対応を本格化させている証拠である。専任部署の設置により、規制監督体制の強化と業界との対話促進が期待される。</p>
-              <div class="detail-footer"><a href="https://coinpost.jp/?p=684342" target="_blank" rel="noopener" class="source-link">原文を読む →</a></div>
+              <p class="detail-text">テザーのKPMG監査発表は、ステーコ市場における「信頼の分岐」局面を象徴する重要な転換点である。背景と影響：
+
+１．歴史的背景：テザーは過去9年間BDO Italiaの四半期「証明書」発行に留まり、正式監査を回避。2021年CFTC罰金（$41M）からの信頼回復戦略の一環。
+
+２．制度対応：GENIUS法（米国）とMiCA（EU）成立により、大型ステーコ発行者への監査要件が事実上義務化。テザーの動きは規制先制の側面。
+
+３．市場競争力への影響：USDCはDeloitte月次証明書+BlackRock資産管理で「機関向け最適」の地位構築。テザーが同等水準の透明性確保により、機関投資家のポートフォリオ複数化が加速する可能性。
+
+４．国内波及：日本でもUSDCレンディングサービス開始（SBI VCトレード、3月）、3メガバンク円建てステーコ共同発行での透明性要件が強化される見込み。
+
+テザーの監査着手が完了まで数ヶ月要する見通しの中で、USDC vs USDT競争は「流動性」から「制度適合性」への決定要因シフトが鮮明化。</p>
+              <div class="detail-footer"><a href="https://www.coindesk.com/markets/2026/03/27/tether-hires-kpmg-for-usdt-audit-brings-in-pwc-as-it-gears-up-for-u-s-expansion" target="_blank" rel="noopener" class="source-link">原文を読む →</a></div>
             </div>
         </div>
       </div>
-      <div class="news-item" data-cat="scj">
-        <div class="news-stripe stripe-scj"></div>
+      <div class="news-item" data-cat="macro">
+        <div class="news-stripe stripe-macro"></div>
         <div class="news-content">
           <div class="news-meta">
-            <span class="news-domain domain-scj">SC・日本</span>
-            <span class="news-subtag">企業</span>
-            <span class="news-published">2026年2月13日</span>
+            <span class="news-domain domain-macro">マクロ・規制</span>
+            <span class="news-subtag">規制</span>
+            <span class="news-published">2026年3月24日</span>
           </div>
-          <div class="news-title" onclick="toggleDetail(2)">金融相、ステーブルコインで株売買実証実験を支援</div>
-          <div class="news-body"><cite index="20-2,20-3">片山金融相が野村HD・大和証券グループと3メガバンクが計画するステーブルコインを使った株式・債券・投資信託などの決済実証実験の支援を決定したと発表</cite></div>
+          <div class="news-title" onclick="toggleDetail(2)">CLARITY法案ステーコ利回り禁止案が産業評価段階へ、4月下旬のマークアップ予定</div>
+          <div class="news-body">3月20日の上院議員（Tillis、Alsobrooks）原則合意を受け、ステーコ利回り妥協案の正式草案を3月23日にプライベートセッションで公開。デジタル資産企業とは月曜、銀行関係者は火曜に内容検討。活動ベース報酬の許可一方で、ホールド報酬を禁止する構造で産業内反応は「慎重」。</div>
           <button class="detail-btn" onclick="toggleDetail(2)">詳しく見る ↓</button>
           
             <div class="news-detail" id="detail-2">
-              <p class="detail-text">金融庁は法令解釈の面から実験を支援し、「証券取引のプロセス改善を見据えた業界横断的な前向きな取り組み」として評価している。一方で<cite index="20-3">SBIHDの北尾会長が参加を拒絶したことで、業界内での立場の違いも浮き彫りになった</cite>。この実証実験は既存の証券決済システムのブロックチェーン化により、決済時間の短縮とコスト削減を目指している重要な取り組みである。</p>
-              <div class="detail-footer"><a href="https://www.nikkei.com/article/DGXZQOUB132750T10C26A2000000/" target="_blank" rel="noopener" class="source-link">原文を読む →</a></div>
-            </div>
-        </div>
-      </div>
-      <div class="news-item" data-cat="scj">
-        <div class="news-stripe stripe-scj"></div>
-        <div class="news-content">
-          <div class="news-meta">
-            <span class="news-domain domain-scj">SC・日本</span>
-            <span class="news-subtag">技術</span>
-            <span class="news-published">2026年2月24日</span>
-          </div>
-          <div class="news-title" onclick="toggleDetail(3)">りそな・JCB・デジタルガレージ、実店舗でステーブルコイン決済実証実験</div>
-          <div class="news-body"><cite index="46-1,46-2">りそなホールディングスらが「Pangea Café & Bar」で、JPYCとUSDCを使った実店舗決済の実証実験を3月2日まで実施。店舗側の受取は日本円</cite></div>
-          <button class="detail-btn" onclick="toggleDetail(3)">詳しく見る ↓</button>
-          
-            <div class="news-detail" id="detail-3">
-              <p class="detail-text"><cite index="46-3">改正資金決済法により信託型ステーブルコインの裏付け資産の最大50%を国債・定期預金で運用可能となり、発行者のビジネスモデルが拡大している</cite>。この実証実験はクレジットカード決済と比較した加盟店手数料削減と、訪日外国人の両替コスト軽減を目指している。<cite index="46-3">一方で決済速度のブロックチェーン依存性とAML/CFT対策の課題</cite>が残っており、実用化に向けた技術的・法的検証が重要となる。</p>
-              <div class="detail-footer"><a href="https://innovatopia.jp/blockchain/blockchain-news/80918/" target="_blank" rel="noopener" class="source-link">原文を読む →</a></div>
-            </div>
-        </div>
-      </div>
-      <div class="news-item" data-cat="wa">
-        <div class="news-stripe stripe-wa"></div>
-        <div class="news-content">
-          <div class="news-meta">
-            <span class="news-domain domain-wa">ウォレット</span>
-            <span class="news-subtag">セキュリティ</span>
-            <span class="news-published">2026年3月19日</span>
-          </div>
-          <div class="news-title" onclick="toggleDetail(4)">ハードウェアウォレットのセキュリティ対策、2026年以降の新手口に対応</div>
-          <div class="news-body"><cite index="21-1,21-3">Web3領域における詐欺手口の巧妙化を受け、ハードウェアウォレット利用者向けのセキュリティ対策が重要視されている。単なる端末保有だけでは不十分</cite></div>
-          <button class="detail-btn" onclick="toggleDetail(4)">詳しく見る ↓</button>
-          
-            <div class="news-detail" id="detail-4">
-              <p class="detail-text"><cite index="21-2">DeFiやNFT利用時のdApps接続放置による承認権限悪用リスクや、AI生成の日本語フィッシング攻撃の高度化</cite>が新たな脅威として浮上している。従来の「不自然な文法」が見られないAI生成メールの登場により、従来のフィッシング対策研修では対応が困難になっている。日常的なセキュリティ管理と定期的な最新脅威情報の把握が、資産保護の鍵となっている。</p>
-              <div class="detail-footer"><a href="https://nft-media.net/security/hardware-wallet-security-8-tips/88093" target="_blank" rel="noopener" class="source-link">原文を読む →</a></div>
-            </div>
-        </div>
-      </div>
-      <div class="news-item" data-cat="wa">
-        <div class="news-stripe stripe-wa"></div>
-        <div class="news-content">
-          <div class="news-meta">
-            <span class="news-domain domain-wa">ウォレット</span>
-            <span class="news-subtag">セキュリティ</span>
-            <span class="news-published">2026年3月12日</span>
-          </div>
-          <div class="news-title" onclick="toggleDetail(5)">レジャー研究者、Androidウォレット脆弱性を暴露</div>
-          <div class="news-body"><cite index="23-1,23-4">レジャーの研究チームがAndroidのブートROM脆弱性を発見。2026年3月公開予定のセキュリティアップデートで対応予定だが根本解決には至らない</cite></div>
-          <button class="detail-btn" onclick="toggleDetail(5)">詳しく見る ↓</button>
-          
-            <div class="news-detail" id="detail-5">
-              <p class="detail-text"><cite index="23-9">メディアテックのチップに存在する脆弱性で、電磁パルスによりセキュリティチェックを回避し、ウォレットのシードフレーズが盗み出される可能性</cite>がある。<cite index="23-1">モバイルファーストを掲げる暗号資産プロジェクトの存続可能性が問われる事態</cite>となっており、スマートフォンでの暗号資産保管というコンセプト自体の見直しが必要になる可能性が高い。ハードウェアレベルでの根本的な対策が求められる。</p>
-              <div class="detail-footer"><a href="https://kabushiki.jp/news/740759" target="_blank" rel="noopener" class="source-link">原文を読む →</a></div>
-            </div>
-        </div>
-      </div>
-      <div class="news-item" data-cat="bc">
-        <div class="news-stripe stripe-bc"></div>
-        <div class="news-content">
-          <div class="news-meta">
-            <span class="news-domain domain-bc">ブロックチェーン</span>
-            <span class="news-subtag">技術</span>
-            <span class="news-published">2026年3月28日</span>
-          </div>
-          <div class="news-title" onclick="toggleDetail(6)">DeFi、実験段階からインフラへ移行、TVL約1,300-1,400億ドル</div>
-          <div class="news-body"><cite index="36-16,36-20">DeFiエコシステムのTVLは1,300-1,400億ドルで、上位12プロトコルが全体の60%以上を支配。2021年の断片化した状況から大きく集約化</cite></div>
-          <button class="detail-btn" onclick="toggleDetail(6)">詳しく見る ↓</button>
-          
-            <div class="news-detail" id="detail-6">
-              <p class="detail-text"><cite index="36-25,36-28">市場は実際の収益を持つプロトコルと単なるエミッション型を区別するようになり、圧力に耐えた生存者による経済モデルの選別が進んだ</cite>。<cite index="36-31,36-32">AaveがDeFi貸付市場の59%、TVL540億ドルを占める事実上の独占状態</cite>を築いており、ネットワーク効果による流動性の集約が鮮明になっている。この集約化は金融セクターの成熟化の表れであり、投機的な長期テールよりも構造的に優位な立場への資本集中が進んでいる。</p>
-              <div class="detail-footer"><a href="https://en.spaziocrypto.com/defi/defi-2026-investment-thesis-nobody-getting-right/" target="_blank" rel="noopener" class="source-link">原文を読む →</a></div>
-            </div>
-        </div>
-      </div>
-      <div class="news-item" data-cat="bc">
-        <div class="news-stripe stripe-bc"></div>
-        <div class="news-content">
-          <div class="news-meta">
-            <span class="news-domain domain-bc">ブロックチェーン</span>
-            <span class="news-subtag">セキュリティ</span>
-            <span class="news-published">2026年3月27日</span>
-          </div>
-          <div class="news-title" onclick="toggleDetail(7)">日本サイバー脅威レポート、北朝鮮・中国による攻撃継続</div>
-          <div class="news-body"><cite index="31-1,31-2">KONNI（北朝鮮）による仮想通貨取引所・ブロックチェーン系スタートアップへのAI生成日本語フィッシング攻撃と、LapDogs（中国）による日本のSOHOルーター侵害が継続</cite></div>
-          <button class="detail-btn" onclick="toggleDetail(7)">詳しく見る ↓</button>
-          
-            <div class="news-detail" id="detail-7">
-              <p class="detail-text"><cite index="31-2,31-3">BreachForumsやDeepMixで日本企業データの活発な取引があり、日本のECプラットフォーム120万件のレコードが売りに出された</cite>。<cite index="31-3">従来の「不自然な」文法が見られないAI生成の日本語フィッシングメールへの対応研修が必要</cite>とされ、FIDO2ベースの多要素認証導入が推奨されている。ブロックチェーン・暗号資産関連企業への標的型攻撃が高度化しており、従来型セキュリティ対策では対応困難な新たな脅威が確認されている。</p>
-              <div class="detail-footer"><a href="https://www.ppln.co/post/japan-cyber-threat-report-2026-march-summary" target="_blank" rel="noopener" class="source-link">原文を読む →</a></div>
+              <p class="detail-text">CLARITY法案のステーコ利回り条項は、ステーコ業務に対する規制フレームワークの最重要課題である：
+
+１．禁止対象：デジタル資産サービス提供者（交換・ブローカー・関連企業）がステーコ残高に対して直接または間接的に金利同等物を提供すること全面禁止。経済的同等性を装った回避策も封じる。
+
+２．許可活動：ロイアルティプログラム、プロモーション、サブスクリプション、取引・支払い・レンディング利用に紐付く報酬は許可。ただしSEC・CFTC・米国財務省が12ヶ月内に定義規則を策定。
+
+３．国内影響：Circle（USDC）は日本での利回り提供（SBIレンディング4-5%）が米国規制先制の懸念あり。国内金融庁のステーコ仲介業ガイドラインとの整合性確保が急務。
+
+４．時間軸：4月後半の下院銀行委員会マークアップ予定で、法案成立タイミングと国内規制準備の同期が重要。
+
+５．制度設計の観点：銀行セクターの資金流出懸念（利回り競争による預金減少）への対抗が立法主眼。国内3メガバンクの共同発行ステーコモデルが銀行性質を帯びる場合の準拠枠組み検討が必要。</p>
+              <div class="detail-footer"><a href="https://coinchoice.net/clarity-act-2026/" target="_blank" rel="noopener" class="source-link">原文を読む →</a></div>
             </div>
         </div>
       </div></div>
     <div class="empty-state" id="emptyState">該当するニュースがありません</div>
   </section>
   <section>
-    <div class="section-label">市場への影響・考察</div>
+    <div class="section-label">ステーブルコイン業務への影響・考察</div>
     <div class="analysis-box">
-      <p class="analysis-text"><cite index="8-2,8-3">米国での税制改革によるステーブルコイン優遇は決済手段としての実用化を加速させる一方、ビットコインとの差別化が進む可能性</cite>がある。<cite index="14-2,20-3">日本では金融庁の組織強化と大手金融機関による実証実験が本格化し、制度面・実務面での基盤整備が急速に進展</cite>している。<cite index="21-2,23-1">ウォレットセキュリティではAI生成フィッシング攻撃とハードウェア脆弱性という新旧の脅威が混在</cite>し、<cite index="36-25,36-28">DeFiは投機的段階から実用インフラへの転換点</cite>を迎えている。これらの動向は、暗号資産・ブロックチェーン業界が技術実証段階から社会実装段階へと移行していることを示している</p>
+      <p class="analysis-text">2026年3月28-29日のステーコ関連ニュース環境は、①リップルCEOの企業導入加速宣言、②テザーの透明性確保動き、③CLARITY法案進捗の3軸で「制度化と信頼競争の本格化」局面を示唆している。USDTとUSDCの競争構図は単なる市場シェア争いから、規制適合性・機関向け利用シーン拡張・国家間規制統合への対応力競争へシフト。国内ではこれら動向が金融庁「暗号資産・ステーブルコイン課」新設（夏）や3メガバンク共同発行実装の規制環境設定に直結。自社業務では利回り規制対応、機関投資家向けコンプライアンス体制強化、国内外規制動向の一体監視が優先課題。</p>
     </div>
   </section>
 </main>

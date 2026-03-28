@@ -14,47 +14,49 @@ today_slug = now.strftime('%Y-%m-%d')
 print(f"Claude APIでニュースを生成中... ({today})")
 
 response = client.messages.create(
-    model="claude-sonnet-4-20250514",
-    max_tokens=6000,
+    model="claude-haiku-4-5-20251001",
+    max_tokens=4000,
     tools=[{"type": "web_search_20250305", "name": "web_search"}],
     messages=[
         {
             "role": "user",
-            "content": f"""今日（{today}）の以下4領域に関する最新ニュースをWeb検索で調べて、JSON形式で返してください。
+            "content": f"""あなたはステーブルコイン業務の担当者です。今日（{today}）の情報収集をしてください。
+以下の4カテゴリで、ステーブルコイン担当者として知っておくべきニュースをWeb検索で調べ、JSON形式で返してください。
 JSONのみ返し、マークダウンのコードブロックや余分なテキストは一切含めないでください。
 
-領域：
-- stablecoin_global: ステーブルコイン・グローバル（米国・EU・アジアなどの規制・市場・企業動向）
-- stablecoin_japan: ステーブルコイン・日本（国内規制・金融庁・国内企業・銀行の動向）
-- wallet: ウォレット（セキュリティ・新機能・規制など）
-- blockchain: ブロックチェーン・技術（インフラ・DeFi・セキュリティインシデントなど）
+【カテゴリ定義】
+- stablecoin: ステーブルコイン直接関連（発行・廃止・提携・市場動向・主要プロジェクトの動き）
+- japan: 国内動向（金融庁・日本の銀行・国内企業のステーブルコイン関連の動き）
+- technology: 関連技術（ウォレット・ブロックチェーン・DeFi・セキュリティなど、ステーブルコインに影響しうる技術動向）
+- macro: マクロ・規制（各国の金融規制・中央銀行・CBDCなど、ステーブルコインに波及しうる動き）
 
 【重要】
-- 過去24時間以内のニュースを優先して取得すること
-- 24時間以内に見つからない場合のみ過去48時間以内まで拡大
+- 過去24時間以内に公開されたニュースのみを取得すること
+- 24時間以内のニュースが見つからないカテゴリはnewsに含めなくてよい
 - 日本語ニュースソース（日本経済新聞・CoinDesk Japan・ブロックチェーンメディア等）も必ず検索すること
-- 各ニュースの公開日時を可能な限り正確に記載すること
+- ステーブルコイン担当者として「知っておくべき」観点で重要度を判断すること
+- 各ニュースの公開日時を正確に記載すること
 
 {{
   "date": "{today}",
-  "summary": "4領域を横断した今日の全体まとめ（200文字程度）",
-  "action_points": ["今日やるべきこと・注目すべきこと1", "同2", "同3"],
+  "summary": "ステーブルコイン担当者視点での今日の全体まとめ（200文字程度）",
+  "action_points": ["今日確認・対応すべきこと1", "同2", "同3"],
   "news": [
     {{
       "title": "ニュースタイトル",
       "published": "公開日（例：2026年3月29日、不明な場合は空文字）",
       "body": "ニュースの概要（150文字程度）",
-      "detail": "このニュースをビジネス視点でわかりやすく掘り下げた解説（300文字程度）。背景・影響・注目点を含めること。",
+      "detail": "ステーブルコイン担当者視点での解説（500文字程度）。背景・経緯・自社業務への影響・今後の注目点を具体的に含めること。",
       "source_name": "情報源名",
       "source_url": "記事のURL（取得できた場合）",
-      "domain": "stablecoin_global or stablecoin_japan or wallet or blockchain",
-      "subtag": "規制 or 市場 or セキュリティ or 技術 or 企業 or その他"
+      "domain": "stablecoin or japan or technology or macro",
+      "subtag": "規制 or 市場 or 技術 or 企業 or セキュリティ or CBDC or その他"
     }}
   ],
-  "analysis": "市場全体への影響・考察（250文字程度）"
+  "analysis": "ステーブルコイン業務への影響・今後の注目点（250文字程度）"
 }}
 
-各領域から1〜2件ずつ、合計6〜8件程度。最新情報を優先してください。"""
+24時間以内のニュースが見つかったカテゴリのみ含めること。無理に件数を増やさなくてよい。"""
         }
     ]
 )
@@ -74,19 +76,24 @@ for block in response.content:
 if not news_json:
     raise Exception("ニュースデータの生成に失敗しました")
 
+# ニュースが0件なら終了
+if len(news_json.get("news", [])) == 0:
+    print("本日の対象ニュースなし。スキップします。")
+    exit(0)
+
 print(f"ニュース {len(news_json['news'])} 件を取得しました")
 
 domain_map = {
-    "stablecoin_global": {"label": "SC・グローバル", "cls": "sc"},
-    "stablecoin_japan":  {"label": "SC・日本",        "cls": "scj"},
-    "wallet":            {"label": "ウォレット",       "cls": "wa"},
-    "blockchain":        {"label": "ブロックチェーン", "cls": "bc"},
+    "stablecoin": {"label": "ステーブルコイン", "cls": "sc"},
+    "japan":      {"label": "国内動向",         "cls": "jp"},
+    "technology": {"label": "関連技術",          "cls": "tech"},
+    "macro":      {"label": "マクロ・規制",      "cls": "macro"},
 }
 
 def build_news_items(news_list):
     html = ""
     for i, item in enumerate(news_list):
-        d = domain_map.get(item.get("domain", "stablecoin_global"), domain_map["stablecoin_global"])
+        d = domain_map.get(item.get("domain", "stablecoin"), domain_map["stablecoin"])
         subtag = item.get("subtag", "")
         published = item.get("published", "")
         detail = item.get("detail", "")
@@ -133,7 +140,7 @@ CSS = """
       --bg:#ffffff; --bg2:#f6f6f6; --bg3:#eef4ff;
       --ink:#0a0a0a; --ink2:#2a2a2a; --ink3:#777777;
       --rule:#e2e2e2; --accent:#0055ff;
-      --sc:#0055cc; --scj:#6d28d9; --wa:#b45309; --bc:#0e7490;
+      --sc:#0055cc; --jp:#6d28d9; --tech:#0e7490; --macro:#b45309;
     }
     * { box-sizing:border-box; margin:0; padding:0; }
     body { background:var(--bg); color:var(--ink); font-family:'Noto Sans JP',sans-serif; font-weight:300; line-height:1.7; }
@@ -159,26 +166,26 @@ CSS = """
     .filter-btn:last-child { border-right:none; }
     .filter-btn:hover { background:var(--bg2); color:var(--ink); }
     .filter-btn.active { background:var(--ink); color:#fff; }
-    .filter-btn[data-cat="all"].active { background:var(--accent); }
-    .filter-btn[data-cat="sc"].active  { background:var(--sc); }
-    .filter-btn[data-cat="scj"].active { background:var(--scj); }
-    .filter-btn[data-cat="wa"].active  { background:var(--wa); }
-    .filter-btn[data-cat="bc"].active  { background:var(--bc); }
+    .filter-btn[data-cat="all"].active   { background:var(--accent); }
+    .filter-btn[data-cat="sc"].active    { background:var(--sc); }
+    .filter-btn[data-cat="jp"].active    { background:var(--jp); }
+    .filter-btn[data-cat="tech"].active  { background:var(--tech); }
+    .filter-btn[data-cat="macro"].active { background:var(--macro); }
     .news-list { display:flex; flex-direction:column; }
     .news-item { display:grid; grid-template-columns:6px 1fr; gap:0 1.4rem; padding:1.3rem 0; border-bottom:1px solid var(--rule); }
     .news-item:last-child { border-bottom:none; padding-bottom:0; }
     .news-item.hidden { display:none; }
     .news-stripe { width:3px; border-radius:2px; align-self:stretch; }
-    .stripe-sc  { background:var(--sc); }
-    .stripe-scj { background:var(--scj); }
-    .stripe-wa  { background:var(--wa); }
-    .stripe-bc  { background:var(--bc); }
+    .stripe-sc    { background:var(--sc); }
+    .stripe-jp    { background:var(--jp); }
+    .stripe-tech  { background:var(--tech); }
+    .stripe-macro { background:var(--macro); }
     .news-meta { display:flex; align-items:center; gap:0.6rem; margin-bottom:0.35rem; flex-wrap:wrap; }
     .news-domain { font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:500; color:#fff; padding:0.18rem 0.5rem; border-radius:2px; }
-    .domain-sc  { background:var(--sc); }
-    .domain-scj { background:var(--scj); }
-    .domain-wa  { background:var(--wa); }
-    .domain-bc  { background:var(--bc); }
+    .domain-sc    { background:var(--sc); }
+    .domain-jp    { background:var(--jp); }
+    .domain-tech  { background:var(--tech); }
+    .domain-macro { background:var(--macro); }
     .news-subtag { font-size:0.62rem; color:var(--ink3); }
     .news-published { font-size:0.62rem; color:var(--ink3); margin-left:auto; }
     .news-title { font-size:0.92rem; font-weight:500; color:var(--ink); margin-bottom:0.4rem; line-height:1.5; cursor:pointer; }
@@ -278,16 +285,16 @@ def build_page(date_str, news_json):
     <div class="section-label">ニュース</div>
     <div class="filter-bar">
       <button class="filter-btn active" data-cat="all">すべて</button>
-      <button class="filter-btn" data-cat="sc">SC・グローバル</button>
-      <button class="filter-btn" data-cat="scj">SC・日本</button>
-      <button class="filter-btn" data-cat="wa">ウォレット</button>
-      <button class="filter-btn" data-cat="bc">ブロックチェーン</button>
+      <button class="filter-btn" data-cat="sc">ステーブルコイン</button>
+      <button class="filter-btn" data-cat="jp">国内動向</button>
+      <button class="filter-btn" data-cat="tech">関連技術</button>
+      <button class="filter-btn" data-cat="macro">マクロ・規制</button>
     </div>
     <div class="news-list" id="newsList">{news_items}</div>
     <div class="empty-state" id="emptyState">該当するニュースがありません</div>
   </section>
   <section>
-    <div class="section-label">市場への影響・考察</div>
+    <div class="section-label">ステーブルコイン業務への影響・考察</div>
     <div class="analysis-box">
       <p class="analysis-text">{news_json['analysis']}</p>
     </div>

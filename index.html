@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stablecoin Brief</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:     #ffffff;
+      --bg2:    #f6f6f6;
+      --ink:    #0a0a0a;
+      --ink2:   #2a2a2a;
+      --ink3:   #777777;
+      --rule:   #e2e2e2;
+      --accent: #0055ff;
+      --sc:     #0055cc;
+      --wa:     #b45309;
+      --bc:     #0e7490;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+    header {
+      border-bottom: 2px solid var(--ink);
+      padding: 1.8rem 2.5rem 1.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .brand {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .brand-dot { color: var(--accent); }
+    .header-right { text-align: right; }
+    .header-date {
+      font-size: 0.72rem;
+      color: var(--ink3);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .header-edition {
+      font-size: 0.68rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      margin-top: 0.15rem;
+    }
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 2.5rem 5rem;
+    }
+    section {
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    section:last-child { border-bottom: none; }
+    .section-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      font-weight: 500;
+      margin-bottom: 1.2rem;
+    }
+    .summary-text {
+      font-size: 0.96rem;
+      line-height: 1.9;
+      color: var(--ink2);
+    }
+    .action-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .action-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 0.9rem;
+      font-size: 0.87rem;
+      color: var(--ink);
+    }
+    .action-num {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 600;
+      color: var(--accent);
+      min-width: 1rem;
+      flex-shrink: 0;
+    }
+    .filter-bar {
+      display: flex;
+      gap: 0;
+      margin-bottom: 1.6rem;
+      border: 1.5px solid var(--ink);
+      border-radius: 3px;
+      overflow: hidden;
+      width: fit-content;
+    }
+    .filter-btn {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 0.45rem 1.2rem;
+      border: none;
+      border-right: 1.5px solid var(--ink);
+      background: var(--bg);
+      color: var(--ink3);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .filter-btn:last-child { border-right: none; }
+    .filter-btn:hover { background: var(--bg2); color: var(--ink); }
+    .filter-btn.active { background: var(--ink); color: #fff; }
+    .filter-btn[data-cat="all"].active { background: var(--accent); }
+    .filter-btn[data-cat="sc"].active  { background: var(--sc); border-color: var(--sc); }
+    .filter-btn[data-cat="wa"].active  { background: var(--wa); border-color: var(--wa); }
+    .filter-btn[data-cat="bc"].active  { background: var(--bc); border-color: var(--bc); }
+    .news-list { display: flex; flex-direction: column; }
+    .news-item {
+      display: grid;
+      grid-template-columns: 6px 1fr;
+      gap: 0 1.4rem;
+      padding: 1.3rem 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: stretch;
+    }
+    .news-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .news-item.hidden { display: none; }
+    .news-stripe { width: 3px; border-radius: 2px; align-self: stretch; }
+    .stripe-sc { background: var(--sc); }
+    .stripe-wa { background: var(--wa); }
+    .stripe-bc { background: var(--bc); }
+    .news-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.35rem;
+    }
+    .news-domain {
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: #fff;
+      padding: 0.18rem 0.5rem;
+      border-radius: 2px;
+    }
+    .domain-sc { background: var(--sc); }
+    .domain-wa { background: var(--wa); }
+    .domain-bc { background: var(--bc); }
+    .news-subtag { font-size: 0.62rem; color: var(--ink3); }
+    .news-title {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+      line-height: 1.5;
+    }
+    .news-body {
+      font-size: 0.82rem;
+      color: var(--ink2);
+      line-height: 1.75;
+      margin-bottom: 0.4rem;
+    }
+    .news-source { font-size: 0.67rem; color: var(--ink3); }
+    .empty-state {
+      display: none;
+      padding: 2rem 0;
+      font-size: 0.84rem;
+      color: var(--ink3);
+      text-align: center;
+    }
+    .analysis-box {
+      background: var(--bg2);
+      border-left: 3px solid var(--ink);
+      padding: 1.3rem 1.6rem;
+    }
+    .analysis-text {
+      font-size: 0.87rem;
+      color: var(--ink2);
+      line-height: 1.95;
+    }
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 1.3rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.67rem;
+      color: var(--ink3);
+    }
+    @media (max-width: 560px) {
+      header { padding: 1.4rem 1.2rem; flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .header-right { text-align: left; }
+      main { padding: 0 1.2rem 3rem; }
+      footer { flex-direction: column; gap: 0.4rem; padding: 1.2rem; }
+      .filter-bar { width: 100%; }
+      .filter-btn { flex: 1; padding: 0.45rem 0.3rem; text-align: center; font-size: 0.62rem; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">Stablecoin<span class="brand-dot">.</span>Brief</div>
+  <div class="header-right">
+    <div class="header-date">2026年03月28日</div>
+    <div class="header-edition">Morning Edition</div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="section-label">Executive Summary</div>
+    <p class="summary-text">暗号資産市場は極度の恐怖状態（恐怖指数23）に陥り、ビットコインが6万6千ドル台、イーサリアムが2千ドル台まで下落。一方、CLARITY法案のステーブルコイン利回り問題は99%解決に近づき、AIを活用したDeFi攻撃手法が拡大中。機関投資家向けの新たなインフラ整備も進展</p>
+  </section>
+
+  <section>
+    <div class="section-label">今日おさえるべきポイント</div>
+    <ul class="action-list"><li><span class="action-num">1</span>ビットコイン6万6千ドル台の重要サポートレベルを注視、損切りライン設定が重要</li>
+<li><span class="action-num">2</span>CLARITY法案の最終決定を待ちステーブルコイン利回り規制への対応準備</li>
+<li><span class="action-num">3</span>AI攻撃に対するDeFiプロトコルのセキュリティ対策強化を確認</li>
+</ul>
+  </section>
+
+  <section>
+    <div class="section-label">ニュース</div>
+    <div class="filter-bar">
+      <button class="filter-btn active" data-cat="all">すべて</button>
+      <button class="filter-btn" data-cat="sc">ステーブルコイン</button>
+      <button class="filter-btn" data-cat="wa">ウォレット</button>
+      <button class="filter-btn" data-cat="bc">ブロックチェーン</button>
+    </div>
+    <div class="news-list" id="newsList">
+      
+      <div class="news-item" data-cat="sc">
+        <div class="news-stripe stripe-sc"></div>
+        <div>
+          <div class="news-meta">
+            <span class="news-domain domain-sc">ステーブルコイン</span>
+            <span class="news-subtag">規制</span>
+          </div>
+          <div class="news-title">CLARITY法案ステーブルコイン利回り問題が99%解決へ</div>
+          <div class="news-body"><cite index="7-32,7-33">ステーブルコイン利回り交渉は99%解決に近づいており、デジタル資産部分は良好な状況</cite>。<cite index="3-31">最新のCLARITY法案草案では受動的利回りを禁止</cite>し、<cite index="3-32">Circleは一日で56億ドルを失った</cite>。</div>
+          <span class="news-source">FinTech Weekly</span>
+        </div>
+      </div>
+      <div class="news-item" data-cat="sc">
+        <div class="news-stripe stripe-sc"></div>
+        <div>
+          <div class="news-meta">
+            <span class="news-domain domain-sc">ステーブルコイン</span>
+            <span class="news-subtag">市場</span>
+          </div>
+          <div class="news-title">ステーブルコイン市場規模が3150億ドルの新記録達成</div>
+          <div class="news-body"><cite index="4-9">DeFiLlamaのデータによると、ステーブルコインの総時価総額は3150億ドルを超え、過去最高を記録</cite>。<cite index="1-2">Rippleの幹部は2025年のステーブルコイン取引量が33兆ドルを超えたと述べた</cite>。</div>
+          <span class="news-source">crypto.news</span>
+        </div>
+      </div>
+      <div class="news-item" data-cat="wa">
+        <div class="news-stripe stripe-wa"></div>
+        <div>
+          <div class="news-meta">
+            <span class="news-domain domain-wa">ウォレット</span>
+            <span class="news-subtag">企業</span>
+          </div>
+          <div class="news-title">Franklin TempletonのETFがクリプトウォレットで24時間取引可能に</div>
+          <div class="news-body"><cite index="11-9,14-6">Franklin Templetonの1.7兆ドル規模のETFがOndo Financeを通じてクリプトウォレット内で24時間365日取引可能</cite>になった。機関投資家向けの新たなアクセス手段として注目を集めている。</div>
+          <span class="news-source">MEXC Exchange</span>
+        </div>
+      </div>
+      <div class="news-item" data-cat="wa">
+        <div class="news-stripe stripe-wa"></div>
+        <div>
+          <div class="news-meta">
+            <span class="news-domain domain-wa">ウォレット</span>
+            <span class="news-subtag">セキュリティ</span>
+          </div>
+          <div class="news-title">Xenea Walletが複雑なシードフレーズを簡素化</div>
+          <div class="news-body"><cite index="11-17">Xenea Walletは複雑なシードフレーズをGoogleやApple IDでのシードレスログインに置き換える安全なレイヤー1ウォレット</cite>。<cite index="11-18">シンプルさを保ちながらトップレベルのセキュリティを確保し、新規ユーザーの参入障壁を下げる</cite>。</div>
+          <span class="news-source">MEXC Exchange</span>
+        </div>
+      </div>
+      <div class="news-item" data-cat="bc">
+        <div class="news-stripe stripe-bc"></div>
+        <div>
+          <div class="news-meta">
+            <span class="news-domain domain-bc">ブロックチェーン</span>
+            <span class="news-subtag">セキュリティ</span>
+          </div>
+          <div class="news-title">AI搭載ハッカーがDeFi攻撃を自動化・大規模化</div>
+          <div class="news-body"><cite index="26-4">AIが暗号資産ハッキングをより安価で簡単、高速にし、攻撃者が防御側を圧倒して数百万ドルを盗む可能性</cite>。<cite index="26-9">AIがレガシーコントラクトハンティングをより安価、高速、スケーラブルにしている</cite>と専門家が警告。</div>
+          <span class="news-source">DL News</span>
+        </div>
+      </div>
+      <div class="news-item" data-cat="bc">
+        <div class="news-stripe stripe-bc"></div>
+        <div>
+          <div class="news-meta">
+            <span class="news-domain domain-bc">ブロックチェーン</span>
+            <span class="news-subtag">市場</span>
+          </div>
+          <div class="news-title">Ethereum DeFi TVLが3.1%減少で482億ドルに</div>
+          <div class="news-body"><cite index="21-1,21-2">Ethereum DeFiプロトコルのTotal Value Lockedが3.1%減少して482億ドルとなり、貸出プロトコルで清算活動が増加しているが、まだシステミックストレスはない</cite>。ETH価格の弱さが影響している。</div>
+          <span class="news-source">Blockchain Magazine</span>
+        </div>
+      </div>
+      <div class="news-item" data-cat="bc">
+        <div class="news-stripe stripe-bc"></div>
+        <div>
+          <div class="news-meta">
+            <span class="news-domain domain-bc">ブロックチェーン</span>
+            <span class="news-subtag">企業</span>
+          </div>
+          <div class="news-title">Anchorage DigitalがTron（TRX）の機関向けカストディを開始</div>
+          <div class="news-body"><cite index="24-4">この統合により機関投資家がTRXを保有するコンプライアントな方法を提供し、TRC-20資産とネイティブTRXステーキングに拡張される予定</cite>。米国の機関投資家向けアクセスが拡大している。</div>
+          <span class="news-source">CoinDesk</span>
+        </div>
+      </div>
+      <div class="news-item" data-cat="bc">
+        <div class="news-stripe stripe-bc"></div>
+        <div>
+          <div class="news-meta">
+            <span class="news-domain domain-bc">ブロックチェーン</span>
+            <span class="news-subtag">技術</span>
+          </div>
+          <div class="news-title">Linea「Yield Boost」プロトコルが3月28日に準備完了</div>
+          <div class="news-body"><cite index="27-8,27-9">3月28日のサービス規約更新でLinea Yield Boostの開始準備が整い、ネットワーク実用性とTVLを実収益生成に直接結びつける</cite>。<cite index="27-6">LineaにブリッジされたETHがEthereumメインネットで自動ステーキングされる</cite>。</div>
+          <span class="news-source">CoinMarketCap</span>
+        </div>
+      </div>
+    </div>
+    <div class="empty-state" id="emptyState">該当するニュースがありません</div>
+  </section>
+
+  <section>
+    <div class="section-label">市場への影響・考察</div>
+    <div class="analysis-box">
+      <p class="analysis-text">今日の暗号資産市場は四半期オプション満期の影響で大幅下落し、恐怖指数が23まで悪化。しかしCLARITY法案のステーブルコイン利回り問題解決やFranklin TempletonのETF24時間取引開始など、制度的インフラは着実に整備されている。一方でAI駆動の攻撃手法拡大により、セキュリティ対策の重要性が増している</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>Stablecoin Brief — Claude AIが毎朝6時に自動生成</span>
+  <span>本情報は参考目的のみ。投資判断の根拠としないこと。</span>
+</footer>
+
+<script>
+  const btns = document.querySelectorAll('.filter-btn');
+  const items = document.querySelectorAll('.news-item');
+  const emptyState = document.getElementById('emptyState');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+      let visible = 0;
+      items.forEach(item => {
+        if (cat === 'all' || item.dataset.cat === cat) {
+          item.classList.remove('hidden');
+          visible++;
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+    });
+  });
+</script>
+</body>
+</html>

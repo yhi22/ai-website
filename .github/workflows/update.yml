@@ -3,7 +3,7 @@ name: Update Stablecoin News Site
 on:
   schedule:
     - cron: '0 21 * * *'  # 毎日UTC21:00 = JST朝6:00
-  workflow_dispatch:  # 手動実行も可能
+  workflow_dispatch:
 
 jobs:
   update:
@@ -30,7 +30,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.html
+          git add index.html archives.html archives/
           git diff --cached --quiet || git commit -m "📰 ステーブルコインニュース更新 $(date +'%Y-%m-%d')"
           git push
 
@@ -40,48 +40,4 @@ jobs:
           GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         run: |
-          python - <<'EOF'
-          import smtplib
-          import os
-          from email.mime.text import MIMEText
-          from datetime import datetime
-
-          now = datetime.now().strftime('%Y年%m月%d日')
-          gmail = os.environ['GMAIL_ADDRESS']
-          password = os.environ['GMAIL_APP_PASSWORD']
-
-          msg = MIMEText(f'{now}のステーブルコインニュースサイトが更新されました。\n\nhttps://${{ github.repository_owner }}.github.io/ai-website/')
-          msg['Subject'] = f'✅ [{now}] ステーブルコインニュース更新完了'
-          msg['From'] = gmail
-          msg['To'] = gmail
-
-          with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
-              server.login(gmail, password)
-              server.send_message(msg)
-          EOF
-
-      - name: Notify on failure
-        if: failure()
-        env:
-          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
-          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-        run: |
-          python - <<'EOF'
-          import smtplib
-          import os
-          from email.mime.text import MIMEText
-          from datetime import datetime
-
-          now = datetime.now().strftime('%Y年%m月%d日')
-          gmail = os.environ['GMAIL_ADDRESS']
-          password = os.environ['GMAIL_APP_PASSWORD']
-
-          msg = MIMEText(f'{now}のサイト更新が失敗しました。\nGitHub Actionsのログを確認してください。\n\nhttps://github.com/${{ github.repository }}/actions')
-          msg['Subject'] = f'❌ [{now}] ステーブルコインニュース更新失敗'
-          msg['From'] = gmail
-          msg['To'] = gmail
-
-          with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
-              server.login(gmail, password)
-              server.send_message(msg)
-          EOF
+          python -
